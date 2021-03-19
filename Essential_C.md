@@ -330,6 +330,8 @@ for (초기식; 조건식; 증감식)
 
 # 함수
 
+## - 출력과 리턴의 차이
+
 ## - 함수 정의
 
 ```c
@@ -459,7 +461,7 @@ twoArr의 길이           6
 
 # 포인터
 
-## `&` and `*`
+## - `&` and `*`
 
 ### * 주소연산자(&)
 
@@ -527,10 +529,163 @@ num( 10 ) : 6422044
     */
 ```
 
-## Call By Value, Call By Reference
+## - Call By Value, Call By Reference
+
+```c
+#include <stdio.h>
+
+void callByVal(int);
+
+void callByRef(int *);
+
+int main()
+{
+    int num = 7;
+    callByVal(num);
+    printf("After Call By Value : %d\n", num);
+
+    callByRef(&num);
+    printf("After Call By Reference : %d\n", num);
+}
+
+void callByVal(int num)
+{
+    num = 20;
+}
+
+void callByRef(int *num)
+{
+    *num = 20;
+}
+```
+
+## - 포인터를 이용한 매개변수로써의 함수 활용
+
+```c
+#include <stdio.h>
+
+int add(int, int);
+
+int mul(int, int);
+
+int calculator(int, int, int (*func)(int, int));
+
+int main()
+{
+    int (*add_calc)(int, int) = add;
+    int (*mul_calc)(int, int) = mul;
+    int add_result = calculator(10, 20, add);
+    int mul_result = calculator(10, 20, mul);
+    printf("add : %d\n", add_result);
+    printf("mul : %d\n", mul_result);
+
+    return 0;
+}
+
+int add(int num1, int num2)
+{
+    return num1 + num2;
+}
+
+int mul(int num1, int num2)
+{
+    return num1 * num2;
+}
+
+int calculator(int num1, int num2, int (*func)(int, int))
+{
+    return func(num1, num2);
+}
+```
 
 <br><br><br><br><br>
 
 <hr>
 
 <br><br><br><br><br>
+
+# 구조체
+
+```c
+#include <stdio.h>  
+
+ 
+
+struct book
+
+{
+
+    char title[30];
+
+    char author[30];
+
+    int price;
+
+};  
+
+ 
+
+int main(void)
+
+{
+
+    struct book my_book = {"HTML과 CSS", "홍길동", 28000};
+
+    struct book java_book = {.title = "Java language", .price = 30000};  
+
+ 
+
+    printf("첫 번째 책의 제목은 %s이고, 저자는 %s이며, 가격은 %d원입니다.\n",
+
+        my_book.title, my_book.author, my_book.price);
+
+    printf("두 번째 책의 제목은 %s이고, 저자는 %s이며, 가격은 %d원입니다.\n",
+
+        java_book.title, java_book.author, java_book.price);
+
+    return 0;
+
+}
+```
+
+```c
+#include <stdio.h>  
+
+ 
+
+typedef struct
+
+{
+
+    char title[30];
+
+    char author[30];
+
+    int price;
+
+}  TEXTBOOK;  
+
+ 
+
+int main(void)
+
+{
+
+    TEXTBOOK my_book = {"HTML과 CSS", "홍길동", 28000};
+
+    TEXTBOOK java_book = {.title = "Java language", .price = 30000};  
+
+ 
+
+    printf("첫 번째 책의 제목은 %s이고, 저자는 %s이며, 가격은 %d원입니다.\n",
+
+        my_book.title, my_book.author, my_book.price);
+
+    printf("두 번째 책의 제목은 %s이고, 저자는 %s이며, 가격은 %d원입니다.\n",
+
+        java_book.title, java_book.author, java_book.price);
+
+    return 0;
+
+}
+```

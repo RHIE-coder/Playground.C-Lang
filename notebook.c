@@ -1,22 +1,18 @@
 #include <stdio.h>
 
-void changeNum(int);
+struct book
 
-void changeArr(int *);
-
-int main()
 {
-    int x = 7;
-    int *ptr = &x;
-    int **pptr = &ptr;
-}
 
-void changeNum(int num)
-{
-    num = 20;
-}
+    char title[30];
 
-void changeArr(int *nums)
+    char author[30];
+
+    int price;
+
+} my_book;
+
+main()
 {
-    nums[0] = 100;
+    typedef struct book TEXTBOOK;
 }
