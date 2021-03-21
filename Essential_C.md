@@ -561,6 +561,8 @@ void callByRef(int *num)
 
 ## - 포인터를 이용한 매개변수로써의 함수 활용
 
+함수 포인터
+
 ```c
 #include <stdio.h>
 
@@ -598,13 +600,35 @@ int calculator(int num1, int num2, int (*func)(int, int))
 }
 ```
 
+## - 포인터를 이용한 배열 다루기
+
 <br><br><br><br><br>
 
 <hr>
 
 <br><br><br><br><br>
 
-# 구조체
+# main 함수 활용 (수정 필요)
+
+```c
+int main(int argc, char *argv[])
+{
+    printf("argc : %d\n", argc);
+    for (int i = 1; i < argc; i++)
+    {
+        printf("%s\n", argv[i]);
+    }
+    return 0;
+}
+```
+
+<br><br><br><br><br>
+
+<hr>
+
+<br><br><br><br><br>
+
+# 구조체(수정 필요)
 
 ```c
 #include <stdio.h>  
