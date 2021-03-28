@@ -602,6 +602,30 @@ int calculator(int num1, int num2, int (*func)(int, int))
 
 ## - 포인터를 이용한 배열 다루기
 
+```js
+#include <stdio.h>
+
+void printArray(int arr[], int count) // 배열의 포인터와 요소의 개수를 받음
+{
+    printf("포인터 변수 크기 : %d\n", sizeof(*arr)); //포인터 변수 자체의 크기가 출력
+    for (int i = 0; i < count; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+
+    printf("\n");
+}
+
+int main()
+{
+    int numArr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    printf("%d\n", sizeof(numArr) / sizeof(int));
+    printArray(numArr, sizeof(numArr) / sizeof(int)); // 배열과 요소의 개수를 넣음
+
+    return 0;
+}
+```
+
 <br><br><br><br><br>
 
 <hr>
@@ -620,6 +644,16 @@ int main(int argc, char *argv[])
     }
     return 0;
 }
+```
+OUTPUT
+```cmd
+CMD> ./sample 안 녕 하 세 요
+sample.exe
+안
+녕
+하
+세
+요
 ```
 
 <br><br><br><br><br>
