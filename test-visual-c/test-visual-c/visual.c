@@ -1,9 +1,12 @@
 #include <stdio.h>
-
-int main()
+#include <math.h>
+//02장_G1_Visual - C_7번 해답코드 202020679 채상준 풀이
+int main(void)
 {
-
-	printf("hello world");
+	float insert;
+	printf("Enter a real number.\n");
+	scanf_s("%f", &insert);
+	printf("Result of Automatic Type Conversion is:%d", (int)insert);
 
 	return 0;
 }
