@@ -361,7 +361,9 @@ int sum(int x, int y)
 }
 ```
 
-## - 전역변수, 지역변수, 정적변수, 레지스터변수
+## - 전역변수, 지역변수, 정적변수, 레지스터변수(no detail)
+
+@차이 알려주기
 
 ### * 전역변수 : 프로그램 종료시 소멸
 
@@ -383,6 +385,8 @@ CPU의 레지스터 메모리에 저장되어 빠르게 접근 가능
 
 레지스터는 아주 작은 크기의 메모리
 
+
+## - 
 
 
 <br><br><br><br><br>
@@ -424,36 +428,53 @@ for (int i = 0; i < length; i++)
 ## - 2차원 배열
 
 ```c
-int oneArr[6] = {10, 20, 30, 40, 50, 60};
-/* 
-선형구조의 메모리에서 
-10, 20, 30 은 twoArr[0]로 되고 
-40, 50, 60은 twoArr[1]이 됨 
-*/
-int twoArr[2][3] = {10, 20, 30, 40, 50, 60};
+#include <stdio.h>
 
-int twoArr2[2][3] = {
-    {10, 20, 30},
-    {40, 50, 60}};
+int main()
+{
+    int oneArr[6] = {10, 20, 30, 40, 50, 60};
+    /* 
+    선형구조의 메모리에서 
+    10, 20, 30 은 twoArr[0]로 되고 
+    40, 50, 60은 twoArr[1]이 됨 
+    */
+    int twoArr[2][3] = {10, 20, 30, 40, 50, 60};
 
-printf("oneArr의 크기 \t\t%d\n", sizeof(oneArr));
-printf("oneArr[0]의 크기 \t%d\n", sizeof(oneArr[0]));
-printf("oneArr의 길이 \t\t%d\n", sizeof(oneArr) / sizeof(int));
+    int twoArr2[2][3] = {
+        {10, 20, 30},
+        {40, 50, 60}};
 
-printf("twoArr의 크기 \t\t%d\n", sizeof(oneArr));
-printf("twoArr[0]의 크기 \t%d\n", sizeof(twoArr[0]));
-printf("twoArr의 길이 \t\t%d\n", sizeof(twoArr) / sizeof(int));
+    printf("oneArr의 크기 \t\t%d\n", sizeof(oneArr));
+    printf("oneArr[0]의 크기 \t%d\n", sizeof(oneArr[0]));
+    printf("oneArr의 길이 \t\t%d\n", sizeof(oneArr) / sizeof(int));
+
+    printf("twoArr의 크기 \t\t%d\n", sizeof(twoArr));
+    printf("twoArr[0]의 크기 \t%d\n", sizeof(twoArr[0]));
+    int element_len = sizeof(twoArr[0]) / sizeof(twoArr[0][0]);
+    printf("twoArr의 길이 \t\t%d\n", (sizeof(twoArr) / element_len) / sizeof(int));
+
+    printf("twoArr2의 크기 \t\t%d\n", sizeof(twoArr2));
+    printf("twoArr2[0]의 크기 \t%d\n", sizeof(twoArr2[0]));
+    int element_len2 = sizeof(twoArr2[0]) / sizeof(twoArr2[0][0]);
+    printf("twoArr2의 길이 \t\t%d\n", (sizeof(twoArr2) / element_len2) / sizeof(twoArr2[0][0]));
+    return 0;
+}
 ```
 
 OUTPUT :
 ```
-oneArr의 크기           24
-oneArr[0]의 크기        4
-oneArr의 길이           6
-twoArr의 크기           24
-twoArr[0]의 크기        12
-twoArr의 길이           6
+oneArr의 크기 		24
+oneArr[0]의 크기 	4
+oneArr의 길이 		6
+twoArr의 크기 		24
+twoArr[0]의 크기 	12
+twoArr의 길이 		2
+twoArr2의 크기 		24
+twoArr2[0]의 크기 	12
+twoArr2의 길이 		2
 ```
+
+@ 내림차순, 오름차순 알려주기
 
 <br><br><br><br><br>
 
@@ -561,6 +582,11 @@ void callByRef(int *num)
 }
 ```
 
+###### tip
+void 포인터는 주소값을 저장하는 것 이외에는 아무것도 할 수 없는 포인터
+
+사용시 명시적 형변환이 필요하다
+
 ## - 포인터를 이용한 매개변수로써의 함수 활용
 
 함수 포인터
@@ -577,7 +603,9 @@ int calculator(int, int, int (*func)(int, int));
 int main()
 {
     int (*add_calc)(int, int) = add;
+    printf("add_calc : %d\n", add_calc(10, 20));
     int (*mul_calc)(int, int) = mul;
+    printf("mul_calc : %d\n", mul_calc(10, 20));
     int add_result = calculator(10, 20, add);
     int mul_result = calculator(10, 20, mul);
     printf("add : %d\n", add_result);
@@ -601,10 +629,16 @@ int calculator(int num1, int num2, int (*func)(int, int))
     return func(num1, num2);
 }
 ```
+출력결과
+```
+add_calc : 30
+mul_calc : 200
+add : 30
+mul : 200
+```
 
 ## - 포인터를 이용한 배열 다루기
-
-```js
+```c
 #include <stdio.h>
 
 void printArray(int arr[], int count) // 배열의 포인터와 요소의 개수를 받음
@@ -634,7 +668,206 @@ int main()
 
 <br><br><br><br><br>
 
-# main 함수 활용 (수정 필요)
+# 메모리 관리
+
+(code) - (data) - (stack) - (heap)
+
+ - code : 실행 프로그램의 코드
+ - data : Global 변수, Static 변수
+ - heap : 동적 할당
+ - stack : 지역변수, 매개변수
+
+## - 동적 할당
+
+### * malloc()
+
+### * calloc()
+
+### * realloc()
+
+<br><br><br><br><br>
+
+<hr>
+
+<br><br><br><br><br>
+
+# 문자열
+
+## - 문자
+
+### * getchar()
+
+```c
+scanf("%c",&ch);
+ch = getchar();
+```
+위 두 코드는 같다.
+
+### * putchar()
+```c
+printf("%c",ch);
+putchar(ch);
+```
+위 두 코드는 같다.
+
+### * 두 함수의 콤비네이션
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    char ch;
+    
+    while((ch = getchar()) != '\n'){
+        putchar(ch);
+    }
+    return 0;
+}
+```
+
+## - 문자열
+
+
+### * NULL
+C언어에서는 문자열이 끝나면 '\0'(NULL)을 포함한다.
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    char str[] = "Hello World";
+
+    int length = 0;
+    while(str[length] != '\0')
+    {
+        length++;
+    }
+
+    printf("문자열의 길이는 %d입니다.\n",length); //11
+}
+```
+
+
+### * gets()
+
+```c
+char str[50];
+gets(str);
+printf("%s", str);
+```
+자동개행됨
+
+### * puts()
+
+```c
+char str[50] = "Hello World";
+puts(str);
+```
+자동개행됨
+
+## - string.h
+
+### * strlen(), strcat(), strcpy(), strcmp()
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char str1[] = "Hello World";
+    char str2[] = "123";
+
+    //strlen()
+    printf("strlen : %d\n", strlen(str1)); //11
+
+    //strcat()
+    printf("cat전 str1 : %s\n", str1);           //"Hello World"
+    printf("strcat : %s\n", strcat(str1, str2)); //Hello World123
+    printf("cat후 str1 : %s\n", str1);           //Hello World123
+    //오버플로우 세이프티 strncat()
+    char cat_str1[12] = "#";
+    strcat(cat_str1, str1);
+    printf("%c\n", cat_str1[14]); //오버플로우 되어 출력됨 : 3
+    char cat_str2[12] = "#";
+    strncat(cat_str2, str1, 12);
+    puts(cat_str2);               //#Hello World1 (길이는 13)
+    printf("%c\n", cat_str2[12]); //1
+
+    //strcpy()
+    char str3[] = "strings data";
+    char str4[20];
+    strcpy(str4, str3);
+    printf("%s\n", str4); //strings data
+    //오버플로우 세이프티 strncpy()
+    char cpy_str[9];
+    strncpy(cpy_str, str3, sizeof(cpy_str) - 1);
+    printf("%s\n", cpy_str); //strings
+
+    //strcmp()
+    char str5[] = "korea";
+    char str6[] = "china";
+    char str7[] = "korea";
+
+    printf("compare korea-china : %d\n", strcmp(str5, str6)); //compare korea-china : 1 
+    printf("compare korea-korea : %d\n", strcmp(str5, str7)); //compare korea-korea : 0
+    /*
+        양수 : 첫번째 파라미터가 더 큼
+        0 : 같음
+        음수 : 두번째 파라미터가 더 큼
+    */
+
+}
+```
+## - stdlib.h
+
+### * atoi(), atol(), atoll(), atof()
+
+문자열을 ~
+ - atoi() : int형 정수로 변환
+ - atol() : long형 정수로 변환
+ - atoll() : long long형 정수로 변환
+ - atof() : 실수로 변환(stdlib.h) - 8byte의 double
+
+## - ctype.h
+
+### * toupper(), tolower()
+
+```c
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main()
+{
+    char *str = "My Name Is James";
+
+    for (int i = 0; i < strlen(str); i++)
+    {
+        printf("%c", toupper(str[i]));
+    } //MY NAME IS JAMES
+
+    putchar('\n');
+
+    for (int i = 0; i < strlen(str); i++)
+    {
+        printf("%c", tolower(str[i]));
+    } //my name is james
+
+    return 0;
+}
+```
+
+<br><br><br><br><br>
+
+<hr>
+
+<br><br><br><br><br>
+
+
+# main 함수 활용
 
 ```c
 int main(int argc, char *argv[])
@@ -665,88 +898,4 @@ sample.exe
 
 <br><br><br><br><br>
 
-# 구조체(수정 필요)
-
-```c
-#include <stdio.h>  
-
- 
-
-struct book
-
-{
-
-    char title[30];
-
-    char author[30];
-
-    int price;
-
-};  
-
- 
-
-int main(void)
-
-{
-
-    struct book my_book = {"HTML과 CSS", "홍길동", 28000};
-
-    struct book java_book = {.title = "Java language", .price = 30000};  
-
- 
-
-    printf("첫 번째 책의 제목은 %s이고, 저자는 %s이며, 가격은 %d원입니다.\n",
-
-        my_book.title, my_book.author, my_book.price);
-
-    printf("두 번째 책의 제목은 %s이고, 저자는 %s이며, 가격은 %d원입니다.\n",
-
-        java_book.title, java_book.author, java_book.price);
-
-    return 0;
-
-}
-```
-
-```c
-#include <stdio.h>  
-
- 
-
-typedef struct
-
-{
-
-    char title[30];
-
-    char author[30];
-
-    int price;
-
-}  TEXTBOOK;  
-
- 
-
-int main(void)
-
-{
-
-    TEXTBOOK my_book = {"HTML과 CSS", "홍길동", 28000};
-
-    TEXTBOOK java_book = {.title = "Java language", .price = 30000};  
-
- 
-
-    printf("첫 번째 책의 제목은 %s이고, 저자는 %s이며, 가격은 %d원입니다.\n",
-
-        my_book.title, my_book.author, my_book.price);
-
-    printf("두 번째 책의 제목은 %s이고, 저자는 %s이며, 가격은 %d원입니다.\n",
-
-        java_book.title, java_book.author, java_book.price);
-
-    return 0;
-
-}
-```
+# 구조체
