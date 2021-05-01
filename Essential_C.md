@@ -899,3 +899,214 @@ sample.exe
 <br><br><br><br><br>
 
 # 구조체
+
+새롭게 정의 하는 사용자 타입
+
+## - 구조체 정의하기&선언하기
+
+```c
+struct human
+{  
+    char name[10];
+    int age;
+};
+
+struct human student;
+```
+활용하기
+```c
+#include <stdio.h>
+
+struct human
+{
+    char name[100];
+    int age;
+};
+
+void info(struct human someone)
+{
+    printf("이 사람의 이름은 %s이며, 나이는 %d살입니다.\n",someone.name, someone.age);
+}
+
+int main()
+{
+
+    struct human student = {"Eddie", 15};
+    struct human businessman = {.name="Alice", .age=30};
+
+    info(student); //이 사람의 이름은 Eddie이며, 나이는 15살입니다.
+    info(businessman); //이 사람의 이름은 Alice이며, 나이는 30살입니다.
+    
+
+    return 0;
+}
+```
+
+## - typedef
+
+매번 struct 키워드를 명시하는게 불편
+
+그러므로 typedef으로 간략화
+
+```c
+#include <stdio.h>
+
+struct human
+{
+    char name[100];
+    int age;
+};
+
+
+typedef struct human HUMAN;
+
+void info(HUMAN someone)
+{
+    printf("이 사람의 이름은 %s이며, 나이는 %d살입니다.\n",someone.name, someone.age);
+}
+
+int main()
+{   
+    HUMAN student = {"Eddie", 15};
+    HUMAN businessman = {.name="Alice", .age=30};
+
+    info(student); //이 사람의 이름은 Eddie이며, 나이는 15살입니다.
+    info(businessman); //이 사람의 이름은 Alice이며, 나이는 30살입니다.
+    
+
+    return 0;
+}
+```
+동시에 할 수도 있음
+
+```c
+#include <stdio.h>
+
+typedef struct
+{
+    char name[10];
+    int age;
+}HUMAN;
+
+void info(HUMAN someone)
+{
+    printf("이 사람의 이름은 %s이며, 나이는 %d살입니다.\n",someone.name, someone.age);
+}
+
+int main()
+{   
+    HUMAN student = {"Eddie", 15};
+    HUMAN businessman = {.name="Alice", .age=30};
+
+    info(student); //이 사람의 이름은 Eddie이며, 나이는 15살입니다.
+    info(businessman); //이 사람의 이름은 Alice이며, 나이는 30살입니다.
+    
+
+    return 0;
+}
+```
+
+## - 구조체 배열
+
+```C
+#include <stdio.h>
+
+typedef struct
+{
+    char name[10];
+    int age;
+} HUMAN;
+
+void info(HUMAN someone)
+{
+    printf("이 사람의 이름은 %s이며, 나이는 %d살입니다.\n", someone.name, someone.age);
+}
+
+int main()
+{
+    HUMAN humans[3] = {
+        {"Alice", 10},
+        {"Bob", 20},
+        {"Charlie", 30}};
+
+    int len = sizeof(humans) / sizeof(humans[0]);
+
+    for (int i = 0; i < len; i++)
+    {
+        info(humans[i]);
+    }
+    /*
+    이 사람의 이름은 Alice이며, 나이는 10살입니다.
+    이 사람의 이름은 Bob이며, 나이는 20살입니다.
+    이 사람의 이름은 Charlie이며, 나이는 30살입니다.
+    */
+
+    return 0;
+}
+```
+
+## - 구조체 안에 구조체
+
+```c
+#include <stdio.h>
+
+typedef struct
+{
+    char reg_num[30];
+    char issue_addr[10];
+    char country[20];
+}IDENTITY;
+
+typedef struct
+{
+    char name[10];
+    int age;
+    IDENTITY identity;
+} HUMAN;
+
+void info(HUMAN someone)
+{
+    IDENTITY tmp = someone.identity;
+    printf("이 사람의 이름은 %s이며, 나이는 %d살입니다.\n", someone.name, someone.age);
+    printf("그리고 신분증 정보는 다음과 같습니다. [주민번호:%s, 발급지:%s, 국적:%s]\n",
+            tmp.reg_num, tmp.issue_addr, tmp.country);
+}
+
+int main()
+{
+    HUMAN humans[3] = {
+        {.name = "Alice", .age = 10, .identity={"1234", "서울", "한국"}},
+        {"Bob", 20, {.reg_num="2345", .issue_addr = "뉴욕", .country = "미국"}},
+        {"Charlie", 30, {"3456", "베이징","중국"}}};
+
+    int len = sizeof(humans) / sizeof(humans[0]);
+
+    for (int i = 0; i < len; i++)
+    {
+        info(humans[i]);
+    }
+    /*
+    이 사람의 이름은 Alice이며, 나이는 10살입니다.
+    그리고 신분증 정보는 다음과 같습니다. [주민번호:1234, 발급지:서울, 국적:한국]
+    이 사람의 이름은 Bob이며, 나이는 20살입니다.
+    그리고 신분증 정보는 다음과 같습니다. [주민번호:2345, 발급지:뉴욕, 국적:미국]
+    이 사람의 이름은 Charlie이며, 나이는 30살입니다.
+    그리고 신분증 정보는 다음과 같습니다. [주민번호:3456, 발급지:베이징, 국적:중국]
+    */
+
+    return 0;
+}
+```
+
+
+<br><br><br><br><br>
+
+<hr>
+
+<br><br><br><br><br>
+
+# 열거체
+
+```c
+
+```

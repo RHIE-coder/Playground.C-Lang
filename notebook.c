@@ -1,22 +1,29 @@
 #include <stdio.h>
-#include <string.h>
-#include <ctype.h>
+
+enum Services
+{
+    LOGIN, REGISTER, ORDER=5
+};//0, 1, 2
 
 int main()
 {
-    char *str = "My Name Is James";
+    int sel = 1;
 
-    for (int i = 0; i < strlen(str); i++)
-    {
-        printf("%c", toupper(str[i]));
-    } //MY NAME IS JAMES
+    switch(sel){
+        case LOGIN:
+            puts("로그인 서비스");
+            break;
 
-    putchar('\n');
+        case REGISTER:
+            puts("회원가입 서비스");
+            break;
+        
+        case ORDER:
+            puts("주문 서비스");
+            break;
+    }//회원가입 서비스
 
-    for (int i = 0; i < strlen(str); i++)
-    {
-        printf("%c", tolower(str[i]));
-    } //my name is james
+    printf("%d %d %d\n", LOGIN, REGISTER, ORDER); //0 1 5
 
     return 0;
 }
