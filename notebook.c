@@ -1,23 +1,32 @@
 #include <stdio.h>
-
-void readFile(FILE * file){
-    char ch;
-    while((ch=fgetc(file))!=NULL){
-        putchar(ch);
-    }
-}
+#include <stdlib.h> //exit(1)
 
 int main()
 {
-    FILE * file = fopen("sample.txt", "r");
-    if(file != NULL){
-        puts("sample.txt 열기 성공");
-        
+    char byte;
+
+    FILE * origin_file = fopen("sample.jpg","rb");
+    FILE * copy_file = fopen("sample_copy.jpg","wb");
+
+    if(origin_file != NULL)
+    {
+        while(!feof(origin_file))
+        {
+            byte = fgetc(origin_file);
+            // printf(ch); error
+            fputc(byte,copy_file);
+        }
     }
 
-    if(fclose(file) != EOF){ //fclose(file) == 0
-        puts("sample.txt 닫기 성공");
+    printf("\n");
+
+    if(fclose(origin_file)==0)
+    {
+        printf("success to close file");
     }
-    
+    else
+    {
+        exit(1);
+    }
     return 0;
 }

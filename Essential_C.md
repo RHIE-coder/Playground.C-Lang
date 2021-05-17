@@ -1149,11 +1149,88 @@ int main()
 
 # 파일
 
-## - 파일 쓰기
-```c
+## - 파일 읽고 쓰기 fgetc(), fputc()
 
+### * text 파일 
+
+```c
+#include <stdio.h>
+#include <stdlib.h> //exit(1)
+
+int main()
+{
+    char ch;
+
+    FILE * origin_file = fopen("sample.txt","r");
+    FILE * copy_file = fopen("sample_copy.txt","w");
+
+    if(origin_file != NULL)
+    {
+        while((ch = fgetc(origin_file))!=EOF)
+        {
+            // printf(ch); error
+            fputc(ch, stdout);
+            fputc(ch,copy_file);
+        }
+    }
+
+    printf("\n");
+
+    if(fclose(origin_file)==0)
+    {
+        printf("success to close file");
+    }
+    else
+    {
+        exit(1);
+    }
+    return 0;
+}
 ```
 
-## - 파일 닫기
-
+- fclose()
+ 
 성공적으로 닫으면 0 반환, 닫지 못하면 EOF
+
+### * 바이너리 파일
+
+```c
+#include <stdio.h>
+#include <stdlib.h> //exit(1)
+
+int main()
+{
+    char byte;
+
+    FILE * origin_file = fopen("sample.jpg","rb");
+    FILE * copy_file = fopen("sample_copy.jpg","wb");
+
+    if(origin_file != NULL)
+    {
+        while(!feof(origin_file))
+        {
+            byte = fgetc(origin_file);
+            // printf(ch); error
+            fputc(byte,copy_file);
+        }
+    }
+
+    printf("\n");
+
+    if(fclose(origin_file)==0)
+    {
+        printf("success to close file");
+    }
+    else
+    {
+        exit(1);
+    }
+    return 0;
+}
+```
+
+<br><br><br>
+
+
+
+
