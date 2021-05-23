@@ -412,8 +412,56 @@ int main()
 
 # 05. 대칭수 만들기
 
-```c
+## - 대칭수 판독하기
 
+```c
+#include <stdio.h>
+
+/* 대칭수 판독기 */
+int main()
+{
+    char sNum[50];
+    printf("[대칭수 판독기]\n");
+    printf("숫자를 입력하세요 : ");
+    scanf("%s", &sNum);
+    printf("입력하신 숫자 : %s\n",sNum);
+
+    int length = 0;
+    int index = 0;
+    
+    while(sNum[index] != '\0')
+    {
+        length++;
+        index++;
+    }
+    printf("길이는 %d\n", length);
+
+    int middle = length / 2;
+    int reverse_index = length;
+    int isPalindromicNumber = 1;
+
+    for(int i = 0; i < middle; i++)
+    {
+        reverse_index--;
+        if(sNum[i] != sNum[reverse_index])
+        {
+            isPalindromicNumber = 0;
+            break;
+        }
+    }
+
+    if(isPalindromicNumber)
+    {
+        printf("숫자 %s은 대칭수입니다.\n", sNum);
+    }
+    else
+    {
+        printf("숫자 %s은 대칭수가 아닙니다.\n", sNum);
+    }
+
+
+    return 0;
+}
 ```
 
 <br>
@@ -423,11 +471,237 @@ int main()
 <hr>
 
 # 06. 영어 문장 암호화하기(카이사르 암호)
-
+## - 유니코드
 ```c
+#include <stdio.h>
 
+int main()
+{
+    for(int i = 0; i < 128; i++)
+    {
+        printf("%d : %c\n", i, i);
+    }
+    //65 ~ 90 : A ~ Z
+    //97 ~ 122: a ~ z
+    return 0;
+}
 ```
 
+## - 카이사르 암호화 적용하기
+
+```c
+#include <stdio.h>
+
+
+//영어 대문자 : 65 ~ 90
+//영어 소문자 : 97 ~ 122
+
+int isUppercase(char ch)
+{
+  return ch >= 65 && ch <= 90;
+}
+
+int isLowercase(char ch)
+{
+  return ch >= 97 && ch <= 122;
+}
+
+int encrypt(char ch, int key)
+{
+  //65 ~ 90
+  if(isUppercase(ch))
+  {
+    ch += key;
+    if(ch > 90)
+    {
+      int over_num = ch - 90;
+      ch = 64 + over_num;
+    }
+  }
+  //97 ~ 122
+  else if(isLowercase(ch))
+  {
+    ch += key;
+    if(ch > 122)
+    {
+      int over_num = ch - 122;
+      ch = 96 + over_num;
+    }
+  }
+  return ch;
+
+}
+
+int decrypt(char ch, int key)
+{
+   //65 ~ 90
+  if(isUppercase(ch))
+  {
+    ch -= key;
+    if(ch < 65)
+    {
+      int over_num = 65 - ch;
+      ch = 91 - over_num;
+    }
+  }
+  //97 ~ 122
+  else if(isLowercase(ch))
+  {
+    ch -= key;
+    if(ch < 97)
+    {
+      int over_num = 97 - ch;
+      ch = 123 - over_num;
+    }
+  }
+  return ch;
+}
+
+int main()
+{
+  char plain[] = "xy ab ejfien dkv";
+  int key = 3;
+
+  printf("원본의 내용 : %s\n",plain);
+
+  //문자열 길이 구하기
+  int length = 0;
+  int index = 0;
+  while(plain[index] != '\0')
+  {
+    length++;
+    index++;
+  }
+
+  printf("원본의 길이 : %d\n", length);
+
+  char E[length];
+  for(int i = 0; i < length; i++)
+  {
+    E[i] = encrypt(plain[i], key);
+  }
+
+  printf("암호화한 후의 내용 : %s\n",E);
+
+  char D[length];
+  for(int i = 0; i < length; i++)
+  {
+    D[i] = decrypt(E[i], key);
+  }
+
+    printf("해독한 후의 내용 : %s\n",D);
+
+  return 0;
+}
+```
+
+```c
+#include <stdio.h>
+
+
+//영어 대문자 : 65 ~ 90
+//영어 소문자 : 97 ~ 122
+
+int isUppercase(char ch)
+{
+  return ch >= 65 && ch <= 90;
+}
+
+int isLowercase(char ch)
+{
+  return ch >= 97 && ch <= 122;
+}
+
+int encrypt(char ch, int key)
+{
+  //65 ~ 90
+  if(isUppercase(ch))
+  {
+    ch += key;
+    if(ch > 90)
+    {
+      int over_num = ch - 90;
+      ch = 64 + over_num;
+    }
+  }
+  //97 ~ 122
+  else if(isLowercase(ch))
+  {
+    ch += key;
+    if(ch > 122)
+    {
+      int over_num = ch - 122;
+      ch = 96 + over_num;
+    }
+  }
+  return ch;
+
+}
+
+int decrypt(char ch, int key)
+{
+   //65 ~ 90
+  if(isUppercase(ch))
+  {
+    ch -= key;
+    if(ch < 65)
+    {
+      int over_num = 65 - ch;
+      ch = 91 - over_num;
+    }
+  }
+  //97 ~ 122
+  else if(isLowercase(ch))
+  {
+    ch -= key;
+    if(ch < 97)
+    {
+      int over_num = 97 - ch;
+      ch = 123 - over_num;
+    }
+  }
+  return ch;
+}
+
+int main()
+{
+  char plain[] = "xy ab ejfien dkv fdsaf";
+  int key = 3;
+
+  printf("원본의 내용 : %s\n",plain);
+
+  //문자열 길이 구하기
+  int length = 0;
+  int index = 0;
+  while(plain[index] != '\0')
+  {
+    length++;
+    index++;
+  }
+
+  printf("원본의 길이 : %d\n", length);
+
+  char E[length];
+  for(int i = 0; i < length; i++)
+  {
+    E[i] = encrypt(plain[i], key);
+  }
+
+  printf("암호화한 후의 내용 : %s\n",E);
+
+  char D[length];
+  for(int i = 0; i < length; i++)
+  {
+    D[i] = decrypt(E[i], key);
+  }
+
+  printf("해독한 후의 내용 : %s\n",D);
+
+
+
+  return 0;
+}
+```
 
 <br>
 <br>
@@ -474,7 +748,99 @@ int main()
 # 10. 행렬 연산
 
 ```c
+#include <stdio.h>
 
+int main(){
+
+  int square_length;
+
+  printf("정방 행렬의 크기는?");
+  scanf("%d", &square_length);
+
+  int matrixA[square_length][square_length];
+  int matrixB[square_length][square_length];
+
+  printf("%d X %d 크기의 첫번째 행렬에 들어갈 숫자를 입력하세요.\n",square_length, square_length);
+  printf("[예를들어, 3 X 3 행렬이라면 1 2 3 4 5 6 7 8 9] :");
+  for(int i=0; i<square_length; i++)
+  {
+    for(int j=0; j<square_length; j++)
+    {
+      scanf("%d", &matrixA[i][j]);
+    }
+  }
+
+  printf("%d X %d 크기의 두번째 행렬에 들어갈 숫자를 입력하세요.\n",square_length, square_length);
+  printf("[예를들어, 3 X 3 행렬이라면 1 2 3 4 5 6 7 8 9] :");
+  for(int i=0; i<square_length; i++)
+  {
+    for(int j=0; j<square_length; j++)
+    {
+      scanf("%d", &matrixB[i][j]);
+    }
+  }
+
+  printf("1번째 배열입니다.\n");
+  for(int i=0; i<square_length; i++)
+  {
+    for(int j=0; j<square_length; j++)
+    {
+      printf("%d ", matrixA[i][j]);
+    }
+    printf("\n");
+  }
+
+
+  printf("2번째 배열입니다.\n");
+  for(int i=0; i<square_length; i++)
+  {
+    for(int j=0; j<square_length; j++)
+    {
+      printf("%d ", matrixB[i][j]);
+    }
+    printf("\n");
+  }
+
+
+  printf("행렬의 합 \n");
+  for(int i=0; i<square_length; i++)
+  {
+    for(int j=0; j<square_length; j++)
+    {
+      printf("%d ", matrixA[i][j] + matrixB[i][j]);
+    }
+    printf("\n");
+  }
+
+  printf("행렬의 차\n");
+  for(int i=0; i<square_length; i++)
+  {
+    for(int j=0; j<square_length; j++)
+    {
+      printf("%d ", matrixA[i][j] - matrixB[i][j]);
+    }
+    printf("\n");
+  }
+
+  printf("행렬의 곱\n");
+  int a = 1;
+  for(int i = 0; i < square_length; i++)
+  {
+    a--;
+    for(int j = 0; j < square_length; j++)
+    {
+      int sum = 0;
+      for(int k = 0; k < square_length; k++)
+      {
+        sum += matrixA[i][k] * matrixB[k][i+a+j];
+      }
+      printf("%d ", sum);
+    }
+    printf("\n");
+  }
+
+
+}
 ```
 
 

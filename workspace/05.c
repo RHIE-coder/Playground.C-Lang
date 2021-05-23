@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h> //atoi()
 
 /* 대칭수 판독기 */
 int main()
@@ -21,19 +20,18 @@ int main()
     printf("길이는 %d\n", length);
 
     int middle = length / 2;
-    int reverse_index = length - 1;
+    int reverse_index = length;
     int isPalindromicNumber = 1;
 
     for(int i = 0; i < middle; i++)
     {
-        printf("debug start\n");
-        if(atoi(sNum[i]) != atoi(sNum[reverse_index]))
+        reverse_index--;
+        if(sNum[i] != sNum[reverse_index])
         {
             isPalindromicNumber = 0;
             break;
         }
     }
-    printf("debug end\n");
 
     if(isPalindromicNumber)
     {
